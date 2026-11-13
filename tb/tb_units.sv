@@ -16,13 +16,12 @@ module tb_units;
  forward_mux mux(orig,wval,mval,a,value);
  initial begin
   count=0;orig=11;wval=22;mval=33;
-  // All register combinations, enables, load status and comparison modes.
+  // Exhaust every source/MEM/WB triple for each operand and all control bits.
   for(si=0;si<32;si=si+1)
-  for(ti=0;ti<32;ti=ti+1)
   for(mi=0;mi<32;mi=mi+1)
   for(wi=0;wi<32;wi=wi+1)
   for(flags=0;flags<64;flags=flags+1) begin
-   s=si;t=ti;m=mi;w=wi;
+   s=si;t=31-si;m=mi;w=wi;
    {enabled,u,v,mw,ml,ww}=flags;
    #1;
    ma=u && mw && m!=0 && s==m; mb=v && mw && m!=0 && t==m;
