@@ -1,0 +1,3 @@
+mode,instructions,cycles,stalls,cpi
+forwarding,10,15,1,1.500
+stall_only,10,26,12,2.600
