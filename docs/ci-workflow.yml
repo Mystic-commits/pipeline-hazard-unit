@@ -1,0 +1,19 @@
+name: Verify RTL
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install simulator
+        run: sudo apt-get update && sudo apt-get install -y iverilog
+      - name: Run unit and integration verification
+        run: make test
+      - name: Generate waveform
+        run: make wave
+      - uses: actions/upload-artifact@v4
+        with:
+          name: simulation-evidence
+          path: |
+            build/pipeline.vcd
+            build/results.csv
