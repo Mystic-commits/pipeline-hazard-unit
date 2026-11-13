@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 // Decoded-instruction teaching core: op 0=ADD, 1=SUB, 2=LW.
 // Program/data arrays are initialized by the simulation harness.
 module pipeline_demo #(parameter MODE=1, N=10)(input clk,reset,

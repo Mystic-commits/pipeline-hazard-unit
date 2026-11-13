@@ -8,7 +8,17 @@ module tb_pipeline;
  pipeline_demo #(0,10) slow(clk,reset,sc,sr,ss,sd);
  reg [31:0] reference[0:31];
  reg [31:0] x,y;
- integer i,steps,fp,sp;
+ integer i,steps,fp;
+ integer held_pc;
+ reg [4:0] held_rs1,held_rs2;
+ always @(posedge clk) begin
+  if(!reset && !fd && fast.stall) begin
+   held_pc=fast.pc;held_rs1=fast.ds1;held_rs2=fast.ds2;
+   #1;
+   if(fast.pc!==held_pc || fast.ds1!==held_rs1 || fast.ds2!==held_rs2 || fast.ev!==0)
+    $fatal(1,"load-use stall failed to hold decode and inject bubble");
+  end
+ end
  task instruction(input integer n,input [1:0] op,input [4:0] d,a,b,input [31:0] imm);
  begin
   fast.program_op[n]=op;slow.program_op[n]=op;

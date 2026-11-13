@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module forwarding_unit(
  input [4:0] rs1, rs2, mem_rd, wb_rd,
  input use1, use2, mem_write, mem_load, wb_write,

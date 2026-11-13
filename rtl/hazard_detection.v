@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module hazard_detection(
  input [4:0] id_rs1,id_rs2,ex_rd,mem_rd,
  input id_use1,id_use2,ex_write,ex_load,mem_write,forwarding_enabled,

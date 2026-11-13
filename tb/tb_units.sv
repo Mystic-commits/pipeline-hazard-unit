@@ -7,7 +7,7 @@ module tb_units;
  reg enabled;
  reg [31:0] orig,wval,mval;
  wire [31:0] value;
- integer si,ti,mi,wi,flags,count;
+ integer si,mi,wi,flags,count;
  reg ma,wa,mb,wb,expected_stall;
  reg [1:0] expected_a,expected_b;
  forwarding_unit f(s,t,m,w,u,v,mw,ml,ww,a,b);
