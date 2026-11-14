@@ -31,6 +31,6 @@ The CSV and VCD in `docs/evidence` are captured outputs, not manually entered me
 
 ## Deliverable limits and remaining team work
 
-This is a simulation-verified educational integration, not a complete RISC-V/MIPS implementation or an FPGA timing result. Day 2 should include team waveform review and presentation rehearsal. Additional randomized instruction streams, formal verification, synthesis and a full decoder would extend coverage but are not claimed here.
+This is a simulation-verified educational integration, not a complete RISC-V/MIPS implementation or an FPGA timing result. Day 2 should include team waveform review and presentation rehearsal. Seeded randomized instruction streams and reset/restart checks were added in the [November 14 verification update](verification.md). Formal verification, synthesis and a full decoder remain outside the current claims.
 
 A ready-to-use GitHub Actions template is stored at `docs/ci-workflow.yml`. CI is not active: the current CLI credential does not have GitHub's workflow scope. An account with workflow permission can move it to `.github/workflows/verify.yml`.

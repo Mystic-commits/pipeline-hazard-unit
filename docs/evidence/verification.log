@@ -1,0 +1,18 @@
+vvp build/units
+PASS unit combinations=2097152
+tb/tb_units.sv:38: $finish called at 2097152000 (1ps)
+vvp build/pipeline
+PASS pipeline: forwarding cycles=15 stalls=1; stall-only cycles=26 stalls=12
+tb/tb_pipeline.sv:68: $finish called at 280000 (1ps)
+vvp build/random 
+PASS random seed=1511506142 programs=100 instructions_per_mode=6400 fast_cycles=7706 slow_cycles=12258
+tb/tb_random.sv:94: $finish called at 127580000 (1ps)
+vvp build/reset
+PASS synchronous reset during load-use hazard and clean restart
+tb/tb_reset.sv:43: $finish called at 140000 (1ps)
+PASS random seed=1 programs=100 instructions_per_mode=6400 fast_cycles=7677 slow_cycles=12371
+tb/tb_random.sv:94: $finish called at 128710000 (1ps)
+PASS random seed=42 programs=100 instructions_per_mode=6400 fast_cycles=7706 slow_cycles=12299
+tb/tb_random.sv:94: $finish called at 127990000 (1ps)
+PASS random seed=20261114 programs=100 instructions_per_mode=6400 fast_cycles=7711 slow_cycles=12303
+tb/tb_random.sv:94: $finish called at 128030000 (1ps)
