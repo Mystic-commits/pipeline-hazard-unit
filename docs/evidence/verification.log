@@ -1,18 +1,36 @@
+iverilog -g2012 -Wall -s tb_units -o build/units rtl/forward_mux.v rtl/forwarding_unit.v rtl/hazard_detection.v rtl/pipeline_demo.v rtl/register_match.v rtl/stall_control.v tb/tb_units.sv
 vvp build/units
-PASS unit combinations=2097152
-tb/tb_units.sv:38: $finish called at 2097152000 (1ps)
+PASS unit combinations=4194304 plus reserved mux selector
+tb/tb_units.sv:44: $finish called at 8388609000 (1ps)
+iverilog -g2012 -Wall -s tb_pipeline -o build/pipeline rtl/forward_mux.v rtl/forwarding_unit.v rtl/hazard_detection.v rtl/pipeline_demo.v rtl/register_match.v rtl/stall_control.v tb/tb_pipeline.sv
 vvp build/pipeline
 PASS pipeline: forwarding cycles=15 stalls=1; stall-only cycles=26 stalls=12
-tb/tb_pipeline.sv:68: $finish called at 280000 (1ps)
+tb/tb_pipeline.sv:69: $finish called at 280000 (1ps)
+iverilog -g2012 -Wall -s tb_random -o build/random rtl/forward_mux.v rtl/forwarding_unit.v rtl/hazard_detection.v rtl/pipeline_demo.v rtl/register_match.v rtl/stall_control.v tb/tb_random.sv
 vvp build/random 
 PASS random seed=1511506142 programs=100 instructions_per_mode=6400 fast_cycles=7706 slow_cycles=12258
 tb/tb_random.sv:94: $finish called at 127580000 (1ps)
+iverilog -g2012 -Wall -s tb_reset -o build/reset rtl/forward_mux.v rtl/forwarding_unit.v rtl/hazard_detection.v rtl/pipeline_demo.v rtl/register_match.v rtl/stall_control.v tb/tb_reset.sv
 vvp build/reset
 PASS synchronous reset during load-use hazard and clean restart
 tb/tb_reset.sv:43: $finish called at 140000 (1ps)
+iverilog -g2012 -Wall -s tb_edges -o build/edges rtl/forward_mux.v rtl/forwarding_unit.v rtl/hazard_detection.v rtl/pipeline_demo.v rtl/register_match.v rtl/stall_control.v tb/tb_edges.sv
+vvp build/edges
+PASS 9 edge cases including false stalls, mixed forwarding and unprotected RAW failure
+tb/tb_edges.sv:89: $finish called at 1020000 (1ps)
 PASS random seed=1 programs=100 instructions_per_mode=6400 fast_cycles=7677 slow_cycles=12371
 tb/tb_random.sv:94: $finish called at 128710000 (1ps)
 PASS random seed=42 programs=100 instructions_per_mode=6400 fast_cycles=7706 slow_cycles=12299
 tb/tb_random.sv:94: $finish called at 127990000 (1ps)
 PASS random seed=20261114 programs=100 instructions_per_mode=6400 fast_cycles=7711 slow_cycles=12303
 tb/tb_random.sv:94: $finish called at 128030000 (1ps)
+vvp build/pipeline +wave
+VCD info: dumpfile build/pipeline.vcd opened for output.
+PASS pipeline: forwarding cycles=15 stalls=1; stall-only cycles=26 stalls=12
+tb/tb_pipeline.sv:69: $finish called at 280000 (1ps)
+python3 scripts/check_waveform.py
+PASS waveform EX/MEM forwarding to operand A: time_ps=50000
+PASS waveform MEM/WB forwarding to operand B: time_ps=60000
+PASS waveform newest producer on both operands: time_ps=90000
+PASS waveform load-use interlock: time_ps=100000
+PASS waveform loaded data forwarded after bubble: time_ps=120000
