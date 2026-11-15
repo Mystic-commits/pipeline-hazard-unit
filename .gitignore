@@ -1,8 +1,6 @@
 build/
 __pycache__/
 *.vcd
-
-# LaTeX build intermediates
 *.aux
 *.log
 *.out

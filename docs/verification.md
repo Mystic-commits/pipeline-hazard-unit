@@ -1,4 +1,4 @@
-# Verification guide — final November 15 audit
+# Verification guide
 
 ## Reproduce
 
@@ -33,6 +33,6 @@ Four seeds passed: 400 programs, 25,600 instructions in each mode, or 51,200 tot
 
 These totals include fill/drain overhead for every program. The original directed benchmark remains 15 versus 26 cycles. Raw console evidence is in [verification.log](evidence/verification.log).
 
-Random testing complements the 4,194,304 unit combinations and directed tests; it does not establish formal correctness or synthesis timing. Nine targeted edge cases and five machine-checked waveform events are included in the final audit. See [acceptance](acceptance.md) and [demo](demo.md). The Actions workflow remains an inactive template.
+Random testing complements the 4,194,304 unit combinations and directed tests; it does not establish formal correctness or synthesis timing. Nine targeted edge cases and five machine-checked waveform events are included in the suite. See the [performance analysis](report.md) and [video outline](phase1/video.md).
 
 The unit sweep now tests both complementary and equal operand register IDs, plus the reserved mux selector fallback. The final clean-build log is `evidence/verification.log`.

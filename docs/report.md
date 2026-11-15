@@ -2,7 +2,7 @@
 
 ## Measured result
 
-Local Icarus Verilog 13.0 simulation, November 15, 2026 (final clean-build audit). Both implementations retire the same ten decoded instructions and match an independent sequential reference for all 32 registers.
+Local Icarus Verilog 13.0 simulation, November 15, 2026. Both implementations retire the same ten decoded instructions and match an independent sequential reference for all 32 registers.
 
 | Mode | Retired | Cycles | Stalls | CPI |
 |---|---:|---:|---:|---:|
@@ -29,11 +29,9 @@ Open `docs/evidence/pipeline.vcd` in GTKWave or regenerate using `make wave`. In
 
 The CSV and VCD in `docs/evidence` are captured outputs, not manually entered measurements. Re-running writes fresh outputs under `build/`.
 
-## Final scope and delivery
+## Scope
 
-This is a simulation-verified educational integration, not a complete RISC-V/MIPS implementation or an FPGA timing result. The final requirements audit and demonstration instructions are in [acceptance](acceptance.md) and [demo](demo.md). Human rehearsal remains a team activity. Seeded randomized instruction streams and reset/restart checks were added in the [November 14 verification update](verification.md). Formal verification, synthesis and a full decoder remain outside the current claims.
-
-A ready-to-use GitHub Actions template is stored at `docs/ci-workflow.yml`. CI is not active: the current CLI credential does not have GitHub's workflow scope. An account with workflow permission can move it to `.github/workflows/verify.yml`.
+The implementation is a simulation-verified educational integration. Seeded instruction streams and reset/restart checks are described in the [verification guide](verification.md). A complete ISA decoder, formal verification, synthesis results, and FPGA timing measurements are outside the current scope.
 
 ## Execution without hazard handling
 

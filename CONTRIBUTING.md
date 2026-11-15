@@ -6,7 +6,7 @@ All five members should understand the full pipeline and own a substantive works
 |---|---|---|
 | Ishita Thakur | Five-stage integration and valid-bit flow | `rtl/pipeline_demo.v`, `docs/architecture.md` |
 | Aditya Verma | Comparators, operand muxes and forwarding interfaces | `rtl/register_match.v`, `rtl/forward_mux.v`, `rtl/forwarding_unit.v` |
-| Yug Johri | Core load-use hazard control, holds and bubble insertion | `rtl/hazard_detection.v`, `rtl/stall_control.v`, `docs/phase1/yug-explanation.md` |
+| Yug Johri | Core load-use hazard control, holds and bubble insertion | `rtl/hazard_detection.v`, `rtl/stall_control.v` |
 | Anshvardhan | Verification, scoreboards, reset and waveform checks | `tb/`, `scripts/check_waveform.py` |
 | Swagato Bauri | Measurements, literature and project report | `docs/evidence/`, `docs/phase1/ieee-report.tex`, `docs/report.md` |
 

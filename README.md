@@ -1,31 +1,45 @@
 # Pipeline Hazard Detection and Forwarding Unit
 
-Team Snorlax — Ishita Thakur, Aditya Verma, Yug Johri, Anshvardhan, Swagato Bauri.
+Team Snorlax — Ishita Thakur, Aditya Verma, Yug Johri, Anshvardhan, and Swagato Bauri.
 
-A five-stage IF/ID/EX/MEM/WB teaching pipeline with RAW forwarding, load-use interlocks, a stall-only comparison mode, and an intentionally unprotected mode for demonstrating RAW errors.
+Verilog hazard detection and operand forwarding for a five-stage IF/ID/EX/MEM/WB pipeline. The design handles RAW dependencies using EX/MEM and MEM/WB forwarding, with an interlock for load-use hazards.
 
-## Phase I submission
+## Report and demonstration
 
-**Public repository:** https://github.com/Mystic-commits/pipeline-hazard-unit
+- [IEEE project report](docs/phase1/ieee-report.pdf) · [LaTeX source](docs/phase1/ieee-report.tex)
+- Prototype video: not uploaded yet. [Recording outline](docs/phase1/video.md)
+- [Team responsibilities and contributing](CONTRIBUTING.md)
 
-- **[IEEE project report PDF](docs/phase1/ieee-report.pdf)** · [Editable LaTeX](docs/phase1/ieee-report.tex)
-- **Prototype video:** not added yet — [recording script and link location](docs/phase1/video.md)
-- [Submission checklist](docs/phase1/submission-checklist.md) · [Team responsibilities and contribution guide](CONTRIBUTING.md)
+## Build and verify
 
-The report includes an abstract, literature review, proposed solution, results, individual workstream allocation, conclusion, and numbered references. The video and member-owned Git contributions are the remaining team actions before submission. **Phase I deadline: November 16, 2026, 11:59 PM IST.**
+Prerequisites: Icarus Verilog (`iverilog` and `vvp`), Python 3, and Make.
 
-## Run
+```sh
+make verify      # All tests, seeded regression, and waveform checks
+make wave        # Generate build/pipeline.vcd for GTKWave
+```
 
-Install Icarus Verilog and Python 3, then run `make verify` for the complete audit. `make test` runs the core suite. Run `make wave` to produce `build/pipeline.vcd` for GTKWave. See [architecture](docs/architecture.md), [two-day plan](docs/plan.md), and [integration report](docs/report.md).
+`make test` runs the core suite; `make regression` runs additional seeds. To rebuild the report with Tectonic, run `make report`.
 
-The integration harness uses decoded instruction fields rather than a binary ISA decoder. It supports ADD, SUB and LW with word-indexed data memory; branches, stores, caches and exceptions are outside this project.
+## Results
 
-## Extended verification
+| Mode | Instructions | Cycles | Stalls | CPI |
+|---|---:|---:|---:|---:|
+| Forwarding with load-use interlock | 10 | 15 | 1 | 1.500 |
+| Stall-only interlocks | 10 | 26 | 12 | 2.600 |
 
-Run `make regression` for additional seeded programs. See the [verification guide](docs/verification.md) for reproducible seeds, per-retirement checks and reset coverage.
+Both modes match the sequential reference. Verification includes 4,194,304 unit combinations, nine edge cases, reset/restart, 400 seeded programs, and five waveform checks. Measurements apply to the supplied simulation workload.
 
-## Final delivery — November 15, 2026
+## Project files
 
-All local checks pass: 4,194,304 unit combinations, nine edge scenarios, reset/restart, 400 seeded programs (51,200 checked retirements across both protected modes), and five captured waveform cases. The directed workload takes 15 cycles with forwarding versus 26 with stall-only interlocks.
+| Path | Contents |
+|---|---|
+| `rtl/` | Comparators, forwarding unit, operand mux, hazard detection, stall control, and pipeline harness |
+| `tb/` | Unit, integration, randomized, edge-case, and reset testbenches |
+| `scripts/` | VCD audit and waveform sample export |
+| `docs/evidence/` | Captured VCD, results, and verification log |
+| `docs/phase1/` | IEEE report, editable source, and video outline |
 
-Start with the [demo guide](docs/demo.md), [requirements and audit record](docs/acceptance.md), and [integration report](docs/report.md). The optional GitHub Actions configuration is a template at `docs/ci-workflow.yml`; hosted CI is not enabled because the current credential lacks workflow permission.
+See the [architecture](docs/architecture.md), [verification guide](docs/verification.md), and [performance analysis](docs/report.md).
+
+The harness supports decoded ADD, SUB, and LW operations with word-indexed memory. A binary ISA decoder, branches, stores, caches, and variable-latency memory are outside its scope. MODE=2 deliberately disables protection to demonstrate incorrect RAW execution; MODE=1 is the intended forwarding design.

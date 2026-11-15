@@ -3,8 +3,6 @@
 - [IEEE project report PDF](ieee-report.pdf) — submission copy, typeset using the IEEEtran conference class.
 - [Editable LaTeX source](ieee-report.tex) — includes the block diagram and numbered bibliography.
 - [Video status and timed script](video.md) — target 4:30, all five member names, live prototype demonstration.
-- [Submission checklist](submission-checklist.md) — course deadline, public repository URL and remaining owner actions.
-- [Yug's explanation guide](yug-explanation.md) — load-use detection, front-end holds and EX bubble insertion.
 
 ## Rebuild the report
 
