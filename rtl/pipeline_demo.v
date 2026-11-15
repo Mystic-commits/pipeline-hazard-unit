@@ -1,5 +1,6 @@
 `timescale 1ns/1ps
 // Decoded-instruction teaching core: op 0=ADD, 1=SUB, 2=LW.
+// MODE: 0=stall-only, 1=forwarding/interlock, 2=unprotected demonstration.
 // Program/data arrays are initialized by the simulation harness.
 module pipeline_demo #(parameter MODE=1, N=10)(input clk,reset,
  output reg [31:0] cycles,retired,stalls, output done);
@@ -13,12 +14,16 @@ module pipeline_demo #(parameter MODE=1, N=10)(input clk,reset,
  reg [4:0] ds1,ds2,dd,es1,es2,ed,md,wd;
  reg [31:0] di,ei,ea,eb,mresult,wvalue;
  reg ml;
- wire stall,pc_write,if_id_write,id_ex_flush;
+ wire stall,detected_stall,pc_write,if_id_write,id_ex_flush;
+ initial begin
+  if(N<1 || MODE<0 || MODE>2) $fatal(1,"invalid pipeline parameters");
+ end
+ assign stall = MODE==2 ? 1'b0 : detected_stall;
  wire [1:0] fa,fb;
  wire [31:0] a,b,result;
  wire ew=ev && ed!=0, mw=mv && md!=0, ww=wv && wd!=0;
  hazard_detection h(ds1,ds2,ed,md,dv,dv && dop!=2,
- ew,ev && eop==2,mw,MODE==1,stall);
+ ew,ev && eop==2,mw,MODE==1,detected_stall);
  stall_control control(stall,pc_write,if_id_write,id_ex_flush);
  forwarding_unit f(es1,es2,md,wd,ev,ev && eop!=2,mw,ml,ww,fa,fb);
  forward_mux mux_a(ea,wvalue,mresult,MODE==1 ? fa : 2'b00,a);
@@ -43,8 +48,10 @@ module pipeline_demo #(parameter MODE=1, N=10)(input clk,reset,
     retired<=retired+1;
     if(wd!=0) regs[wd]<=wvalue;
    end
-   wv<=mv;wd<=md;wvalue<=ml ? memory[mresult[7:0]] : mresult;
-   mv<=ev;md<=ed;ml<=eop==2;mresult<=result;
+   wv<=mv;wd<=md;
+   // Invalid stages must not trigger a data-memory read or propagate X data.
+   wvalue<=!mv ? 32'b0 : ml ? memory[mresult[7:0]] : mresult;
+   mv<=ev;md<=ed;ml<=ev && eop==2;mresult<=ev ? result : 32'b0;
    if(id_ex_flush) begin ev<=0;stalls<=stalls+1;end
    else begin
     ev<=dv;eop<=dop;ed<=dd;es1<=ds1;es2<=ds2;ei<=di;
