@@ -26,3 +26,7 @@ No incorrect architectural result was observed in either protected mode during t
 ## Final deliverable status
 
 All requested technical deliverables are present and pass local verification. The optional GitHub Actions template cannot be activated with the current CLI credential, which lacks workflow scope. No hosted CI success is claimed. No teammate invitations, presentation attendance or instructor submission are claimed.
+
+## Phase I rubric additions
+
+The repository is public. An IEEEtran conference-format report and editable source are provided in `phase1/`, with a timed video script and submission checklist. The owner will record/upload the video and invite the team. Actual individual Git contributions and form submission remain team actions; the earlier technical completion status does not claim those submission tasks are complete.

@@ -8,7 +8,7 @@ cd pipeline-hazard-unit
 make verify
 ```
 
-The repository is private, so the GitHub account must have access. Prerequisites: Icarus Verilog (`iverilog` and `vvp`), Python 3 and Make. No Python packages are required. On macOS, install the simulator with `brew install icarus-verilog`; on Debian/Ubuntu use `sudo apt-get install iverilog make python3`.
+The repository is public and can be cloned without an invitation. Prerequisites: Icarus Verilog (`iverilog` and `vvp`), Python 3 and Make. No Python packages are required. On macOS, install the simulator with `brew install icarus-verilog`; on Debian/Ubuntu use `sudo apt-get install iverilog make python3`.
 
 `make verify` runs all tests, all four recorded random seeds, generates the VCD and checks five waveform cases. Any failed assertion exits with a nonzero status. Fresh results are under `build/`; submitted evidence is under `docs/evidence/`.
 
@@ -51,3 +51,5 @@ Times are stable falling-edge samples from the supplied testbench, not propagati
 ## Completion boundary
 
 RTL, automated verification, waveform cases, CPI comparison and the integration report are delivered. Human presentation rehearsal and instructor submission must be performed by the team. The optional Actions workflow remains a template until an account with workflow-write permission enables it; local verification is complete.
+
+For the assessed Phase I recording, use the [timed script](phase1/video.md), which introduces all five members and targets 4:30.
