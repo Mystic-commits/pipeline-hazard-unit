@@ -25,3 +25,22 @@ The stall-only mode interlocks on dependencies in EX and MEM. Explicit WB-to-ID 
 Reset is synchronous and active high. The demo initializes register rN to N, r0 to zero; this is a test fixture convention. Memories and decoded program arrays are supplied by the testbench. Loads use word indices; low eight address bits select one of 256 words. No byte addressing, alignment exceptions, branch flushes, stores, multi-cycle memory or complete ISA is claimed. The standalone combinational units are synthesizable; the demo's initialized arrays and internal testbench access are for simulation integration.
 
 For a real core, gate producer write signals with valid bits and supply the selected load/ALU WB result to the forwarding mux. Add independent control-hazard and memory-backpressure handling before extending the instruction set.
+
+## Unprotected demonstration mode
+
+MODE=0 selects stall-only interlocks; MODE=1 selects forwarding plus load-use interlocks. MODE=2 disables both and deliberately allows RAW failures. Use MODE=1 for the intended design. N must be at least one. Invalid stage metadata is cleared before memory/writeback evaluation; architectural effects remain controlled by valid bits.
+
+```mermaid
+flowchart LR
+ IF[IF: decoded fetch] --> ID[ID: register read]
+ ID --> EX[EX: operand muxes and ALU]
+ EX --> MEM[MEM: data memory]
+ MEM --> WB[WB: register commit]
+ MEM -->|EX/MEM ALU result| EX
+ WB -->|MEM/WB final value| EX
+ WB -->|same-cycle read bypass| ID
+ ID --> H[Hazard detection]
+ EX --> H
+ H -->|hold PC and IF/ID| IF
+ H -->|invalidate ID/EX| EX
+```

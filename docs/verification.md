@@ -1,8 +1,10 @@
-# Verification guide — November 14 update
+# Verification guide — final November 15 audit
 
 ## Reproduce
 
-- `make test`: combinational unit sweep, directed integration, deterministic random streams and reset/restart test.
+Run `make verify` for the complete suite, multi-seed regression, VCD generation and automated waveform audit.
+
+- `make test`: combinational unit sweep, directed integration, deterministic random streams, reset/restart test and nine edge cases.
 - `make regression`: repeat random verification with seeds 1, 42 and 20261114.
 - `make random ARGS='+seed=1234'`: run another nonzero 32-bit decimal seed.
 - `make regression SEEDS='7 99'`: select a seed list. A failing simulation stops the target.
@@ -31,4 +33,6 @@ Four seeds passed: 400 programs, 25,600 instructions in each mode, or 51,200 tot
 
 These totals include fill/drain overhead for every program. The original directed benchmark remains 15 versus 26 cycles. Raw console evidence is in [verification.log](evidence/verification.log).
 
-Random testing complements the 2,097,152 unit combinations and directed tests; it does not establish formal correctness or synthesis timing. Final team review and presentation preparation remain scheduled for the second day. The Actions workflow remains an inactive template.
+Random testing complements the 4,194,304 unit combinations and directed tests; it does not establish formal correctness or synthesis timing. Nine targeted edge cases and five machine-checked waveform events are included in the final audit. See [acceptance](acceptance.md) and [demo](demo.md). The Actions workflow remains an inactive template.
+
+The unit sweep now tests both complementary and equal operand register IDs, plus the reserved mux selector fallback. The final clean-build log is `evidence/verification.log`.

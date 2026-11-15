@@ -2,7 +2,7 @@
 
 ## Measured result
 
-Local Icarus Verilog 13.0 simulation, November 14, 2026. Both implementations retire the same ten decoded instructions and match an independent sequential reference for all 32 registers.
+Local Icarus Verilog 13.0 simulation, November 15, 2026 (final clean-build audit). Both implementations retire the same ten decoded instructions and match an independent sequential reference for all 32 registers.
 
 | Mode | Retired | Cycles | Stalls | CPI |
 |---|---:|---:|---:|---:|
@@ -13,7 +13,7 @@ Cycle reduction is 11/26 = 42.3%; speedup is 26/15 = 1.73x at an assumed equal c
 
 ## Verification
 
-`make test` passes 2,097,152 control combinations: every source/MEM/WB register triple for both operands, source-use flags, write enables, load status and both hazard modes. These checks cover zero-register exclusion, forwarding priority, unavailable load data, source masking, mux output and stall-control outputs. The two operand sweeps share a loop with complementary source IDs; no comparator depends on the other operand's ID.
+`make test` passes 4,194,304 control combinations: every source/MEM/WB register triple for both operands, source-use flags, write enables, load status and both hazard modes. These checks cover zero-register exclusion, forwarding priority, unavailable load data, source masking, mux output and stall-control outputs. The sweep checks complementary and equal source-ID pairs, plus all register triples for each operand. The reserved mux selector falls back to the original operand.
 
 The integration test covers ADD followed by SUB, MEM/WB forwarding, consecutive writers to the same register, both operands selecting the newest producer, LW followed by a consumer, ignored writes to r0 and pipeline drain. A clock-edge assertion checks that a load-use stall holds PC/decode and inserts an invalid EX bubble. A timeout catches deadlock.
 
@@ -29,8 +29,14 @@ Open `docs/evidence/pipeline.vcd` in GTKWave or regenerate using `make wave`. In
 
 The CSV and VCD in `docs/evidence` are captured outputs, not manually entered measurements. Re-running writes fresh outputs under `build/`.
 
-## Deliverable limits and remaining team work
+## Final scope and delivery
 
-This is a simulation-verified educational integration, not a complete RISC-V/MIPS implementation or an FPGA timing result. Day 2 should include team waveform review and presentation rehearsal. Seeded randomized instruction streams and reset/restart checks were added in the [November 14 verification update](verification.md). Formal verification, synthesis and a full decoder remain outside the current claims.
+This is a simulation-verified educational integration, not a complete RISC-V/MIPS implementation or an FPGA timing result. The final requirements audit and demonstration instructions are in [acceptance](acceptance.md) and [demo](demo.md). Human rehearsal remains a team activity. Seeded randomized instruction streams and reset/restart checks were added in the [November 14 verification update](verification.md). Formal verification, synthesis and a full decoder remain outside the current claims.
 
 A ready-to-use GitHub Actions template is stored at `docs/ci-workflow.yml`. CI is not active: the current CLI credential does not have GitHub's workflow scope. An account with workflow permission can move it to `.github/workflows/verify.yml`.
+
+## Execution without hazard handling
+
+The final edge suite compares the same four instructions in all three modes. In case 8, ADD r5,r1,r2 followed by SUB r6,r5,r3 gives r6=0 in both protected modes. MODE=2 reads stale r5=5 and produces r6=2. It takes 8 cycles but is incorrect; forwarding also takes 8 cycles and is correct, while stall-only requires 10 cycles. This demonstrates both the need for handling and the performance benefit of forwarding.
+
+Nine edge cases verify independent instructions, unused load rs2 fields, load-to-r0, both consumer operands, load-base dependencies, mixed forwarding paths and newest-producer priority. The automated VCD audit confirms the five waveform events listed above. See `evidence/edge-results.csv`, `evidence/waveform-cases.csv` and `evidence/verification.log`.

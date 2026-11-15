@@ -14,3 +14,7 @@
 Suggested ownership (team can change): Ishita — integration; Aditya — forwarding; Yug — hazard control; Anshvardhan — verification; Swagato — measurements/report.
 
 Commit policy: commit completed, reviewable changes with descriptive messages. Do not backdate or manufacture activity. Current commits record actual work; the second day remains a review/demo milestone.
+
+## November 15 completion record
+
+The technical audit, expanded edge coverage, waveform checks, CPI comparison, integration report and demonstration guide are complete. `make verify` reproduces local checks. The workflow configuration remains an optional template because the connected credential cannot publish Actions workflows. Human team rehearsal and instructor submission are outside this automated completion record.
