@@ -1,9 +1,10 @@
 IVERILOG ?= iverilog
 VVP ?= vvp
 PYTHON ?= python3
+TECTONIC ?= tectonic
 SEEDS ?= 1 42 20261114
 RTL := $(wildcard rtl/*.v)
-.PHONY: test unit integration wave random reset regression edges verify clean
+.PHONY: test unit integration wave random reset regression edges verify report clean
 test: unit integration random reset edges
 verify: test regression wave
 	$(PYTHON) scripts/check_waveform.py
@@ -35,3 +36,7 @@ wave: build/pipeline
 	$(VVP) $< +wave
 clean:
 	rm -rf build
+
+# Optional document toolchain; not required for RTL verification.
+report: docs/phase1/ieee-report.tex
+	$(TECTONIC) --outdir docs/phase1 $<
