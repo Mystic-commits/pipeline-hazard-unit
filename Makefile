@@ -2,8 +2,8 @@ IVERILOG ?= iverilog
 VVP ?= vvp
 SEEDS ?= 1 42 20261114
 RTL := $(wildcard rtl/*.v)
-.PHONY: test unit integration wave random reset regression clean
-test: unit integration random reset
+.PHONY: test unit integration wave random reset regression edges clean
+test: unit integration random reset edges
 build:
 	mkdir -p build
 build/units: $(RTL) tb/tb_units.sv | build
@@ -19,6 +19,10 @@ build/reset: $(RTL) tb/tb_reset.sv | build
 regression: build/random
 	@set -e; for seed in $(SEEDS); do $(VVP) $< +seed=$$seed; done
 reset: build/reset
+	$(VVP) $<
+build/edges: $(RTL) tb/tb_edges.sv | build
+	$(IVERILOG) -g2012 -Wall -s tb_edges -o $@ $^
+edges: build/edges
 	$(VVP) $<
 unit: build/units
 	$(VVP) $<
