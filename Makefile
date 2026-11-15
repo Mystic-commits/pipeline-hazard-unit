@@ -1,9 +1,12 @@
 IVERILOG ?= iverilog
 VVP ?= vvp
+PYTHON ?= python3
 SEEDS ?= 1 42 20261114
 RTL := $(wildcard rtl/*.v)
-.PHONY: test unit integration wave random reset regression edges clean
+.PHONY: test unit integration wave random reset regression edges verify clean
 test: unit integration random reset edges
+verify: test regression wave
+	$(PYTHON) scripts/check_waveform.py
 build:
 	mkdir -p build
 build/units: $(RTL) tb/tb_units.sv | build

@@ -6,23 +6,27 @@ module tb_units;
  wire stall,pcw,idw,flush;
  reg enabled;
  reg [31:0] orig,wval,mval;
+ reg [1:0] mux_select;
  wire [31:0] value;
- integer si,mi,wi,flags,count;
+ integer si,mi,wi,flags,count,pattern;
  reg ma,wa,mb,wb,expected_stall;
  reg [1:0] expected_a,expected_b;
  forwarding_unit f(s,t,m,w,u,v,mw,ml,ww,a,b);
  hazard_detection h(s,t,m,w,u,v,mw,ml,ww,enabled,stall);
  stall_control c(stall,pcw,idw,flush);
- forward_mux mux(orig,wval,mval,a,value);
+ forward_mux mux(orig,wval,mval,mux_select,value);
  initial begin
   count=0;orig=11;wval=22;mval=33;
   // Exhaust every source/MEM/WB triple for each operand and all control bits.
+  for(pattern=0;pattern<2;pattern=pattern+1)
   for(si=0;si<32;si=si+1)
   for(mi=0;mi<32;mi=mi+1)
   for(wi=0;wi<32;wi=wi+1)
   for(flags=0;flags<64;flags=flags+1) begin
-   s=si;t=31-si;m=mi;w=wi;
+   s=si;t=pattern==0 ? 31-si : si;m=mi;w=wi;
    {enabled,u,v,mw,ml,ww}=flags;
+   #1;
+   mux_select=a;
    #1;
    ma=u && mw && m!=0 && s==m; mb=v && mw && m!=0 && t==m;
    wa=u && ww && w!=0 && s==w; wb=v && ww && w!=0 && t==w;
@@ -35,6 +39,8 @@ module tb_units;
    if(value!==(a==2 ? mval : a==1 ? wval : orig)) $fatal(1,"mux mismatch");
    count=count+1;
   end
-  $display("PASS unit combinations=%0d",count);$finish;
+  mux_select=3;#1;
+  if(value!==orig) $fatal(1,"reserved mux selector must fall back to original operand");
+  $display("PASS unit combinations=%0d plus reserved mux selector",count);$finish;
  end
 endmodule
