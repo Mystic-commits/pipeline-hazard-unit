@@ -54,12 +54,13 @@ module tb_pipeline;
   repeat(2) @(negedge clk); reset=0;
   steps=0;
   while(!(fd && sd) && steps<100) begin @(negedge clk);steps=steps+1;end
-  if(!fd || !sd) $fatal(1,"pipeline timed out");
+  if(fd!==1'b1 || sd!==1'b1) $fatal(1,"pipeline timed out");
   for(i=0;i<32;i=i+1)
    if(fast.regs[i]!==reference[i] || slow.regs[i]!==reference[i])
     $fatal(1,"r%0d expected=%0d fast=%0d slow=%0d",i,reference[i],fast.regs[i],slow.regs[i]);
-  if(fs!=1 || fc!=15 || sc!=10+4+ss || sc<=fc) $fatal(1,"unexpected timing");
+  if(fs!==1 || fc!==15 || sc!==10+4+ss || sc<=fc) $fatal(1,"unexpected timing");
   fp=$fopen("build/results.csv","w");
+  if(fp==0) $fatal(1,"cannot open results CSV");
   $fdisplay(fp,"mode,instructions,cycles,stalls,cpi");
   $fdisplay(fp,"forwarding,%0d,%0d,%0d,%0.3f",fr,fc,fs,1.0*fc/fr);
   $fdisplay(fp,"stall_only,%0d,%0d,%0d,%0.3f",sr,sc,ss,1.0*sc/sr);

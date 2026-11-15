@@ -27,14 +27,14 @@ module tb_reset;
   @(negedge clk);check_reset;reset=0;
   steps=0;
   while(!dut.stall && steps<20) begin @(negedge clk);steps=steps+1;end
-  if(!dut.stall) $fatal(1,"expected load-use hazard before reset");
+  if(dut.stall!==1'b1) $fatal(1,"expected load-use hazard before reset");
   // Interrupt a live dependency; no stale load or bubble may survive reset.
   reset=1;
   @(negedge clk);check_reset;
   @(negedge clk);check_reset;reset=0;
   steps=0;
   while(!done && steps<30) begin @(negedge clk);steps=steps+1;end
-  if(!done || retired!=4 || cycles!=9 || stalls!=1)
+  if(done!==1'b1 || retired!==4 || cycles!==9 || stalls!==1)
    $fatal(1,"restart failed timing checks");
   if(dut.regs[0]!==0 || dut.regs[1]!==100 || dut.regs[2]!==102 ||
      dut.regs[3]!==202 || dut.regs[4]!==102)

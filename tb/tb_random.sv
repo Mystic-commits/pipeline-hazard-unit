@@ -78,15 +78,15 @@ module tb_random;
    repeat(2) @(negedge clk);reset=0;
    steps=0;
    while(!(fd && sd) && steps<4*N+10) begin @(negedge clk);steps=steps+1;end
-   if(!fd || !sd || fi!=N || si!=N) $fatal(1,"retirement/timeout trial=%0d",trial);
+   if(fd!==1'b1 || sd!==1'b1 || fi!=N || si!=N) $fatal(1,"retirement/timeout trial=%0d",trial);
    for(i=0;i<32;i=i+1)
     if(fast.regs[i]!==model[i] || slow.regs[i]!==model[i])
      $fatal(1,"register mismatch trial=%0d register=%0d",trial,i);
-   if(fc!=N+4+fs || sc!=N+4+ss || fc>sc) $fatal(1,"cycle accounting mismatch");
+   if(fc!==N+4+fs || sc!==N+4+ss || fc>sc) $fatal(1,"cycle accounting mismatch");
    total_fast=total_fast+fc;total_slow=total_slow+sc;
    held_fast_cycles=fc;held_slow_cycles=sc;
    repeat(3) @(negedge clk);
-   if(fr!=N || sr!=N || fc!=held_fast_cycles || sc!=held_slow_cycles)
+   if(fr!==N || sr!==N || fc!==held_fast_cycles || sc!==held_slow_cycles)
     $fatal(1,"completed pipeline did not stay idle");
   end
   $display("PASS random seed=%0d programs=%0d instructions_per_mode=%0d fast_cycles=%0d slow_cycles=%0d",
