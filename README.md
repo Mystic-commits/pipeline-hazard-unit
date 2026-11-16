@@ -10,6 +10,8 @@ Verilog hazard detection and operand forwarding for a five-stage IF/ID/EX/MEM/WB
 - [Prototype demonstration — 4:51 (MP4)](docs/media/prototype-demo.mp4) · [Direct video download](https://raw.githubusercontent.com/Mystic-commits/pipeline-hazard-unit/main/docs/media/prototype-demo.mp4) · [Chapters](docs/phase1/video.md)
 - [Team responsibilities and contributing](CONTRIBUTING.md)
 
+[![Prototype video preview](docs/media/prototype-poster.jpg)](https://raw.githubusercontent.com/Mystic-commits/pipeline-hazard-unit/main/docs/media/prototype-demo.mp4)
+
 ## Build and verify
 
 Prerequisites: Icarus Verilog (`iverilog` and `vvp`), Python 3, and Make.
