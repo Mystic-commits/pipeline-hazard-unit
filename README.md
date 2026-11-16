@@ -7,7 +7,7 @@ Verilog hazard detection and operand forwarding for a five-stage IF/ID/EX/MEM/WB
 ## Report and demonstration
 
 - [IEEE project report](docs/phase1/ieee-report.pdf) · [LaTeX source](docs/phase1/ieee-report.tex)
-- Prototype video: not uploaded yet. [Recording outline](docs/phase1/video.md)
+- [Prototype demonstration — 4:51 (MP4)](docs/media/prototype-demo.mp4) · [Direct video download](https://raw.githubusercontent.com/Mystic-commits/pipeline-hazard-unit/main/docs/media/prototype-demo.mp4) · [Chapters](docs/phase1/video.md)
 - [Team responsibilities and contributing](CONTRIBUTING.md)
 
 ## Build and verify
@@ -38,7 +38,8 @@ Both modes match the sequential reference. Verification includes 4,194,304 unit 
 | `tb/` | Unit, integration, randomized, edge-case, and reset testbenches |
 | `scripts/` | VCD audit and waveform sample export |
 | `docs/evidence/` | Captured VCD, results, and verification log |
-| `docs/phase1/` | IEEE report, editable source, and video outline |
+| `docs/phase1/` | IEEE report, editable source, and video chapters |
+| `docs/media/` | Narrated prototype demonstration |
 
 See the [architecture](docs/architecture.md), [verification guide](docs/verification.md), and [performance analysis](docs/report.md).
 
