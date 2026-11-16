@@ -2,7 +2,8 @@
 
 - [IEEE project report PDF](ieee-report.pdf) — submission copy, typeset using the IEEEtran conference class.
 - [Editable LaTeX source](ieee-report.tex) — includes the block diagram and numbered bibliography.
-- [Video status and timed script](video.md) — target 4:30, all five member names, live prototype demonstration.
+- [Prototype demonstration MP4](../media/prototype-demo.mp4) — 4:51 narrated demonstration with all five member names, RTL, verification and results.
+- [Video chapters and playback](video.md) — direct download and section timestamps.
 
 ## Rebuild the report
 

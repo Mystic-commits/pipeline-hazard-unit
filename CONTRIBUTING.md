@@ -23,3 +23,15 @@ The current initial development history uses a single author identity. Inviting 
 ## Report editing
 
 The report uses IEEEtran conference mode. Its source and build instructions are under `docs/phase1/`. Keep role statements consistent with the team's actual work and keep numerical claims consistent with captured simulation outputs.
+
+## GitHub commit attribution
+
+Before committing, set this checkout's identity using your own name and an email linked to your GitHub account:
+
+```sh
+git config --local user.name "Your Name"
+git config --local user.email "YOUR_ID+YOUR_USERNAME@users.noreply.github.com"
+git var GIT_AUTHOR_IDENT
+```
+
+Copy your exact noreply address from GitHub Settings → Emails; do not use another member's address. The initial history used a machine-local email that GitHub could not associate with an account. New commits use a linked identity; earlier commits have not been rewritten. Contributor graphs may take time to refresh after a push.
