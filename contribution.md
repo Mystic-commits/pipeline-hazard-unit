@@ -28,5 +28,6 @@ Before committing, set this checkout's identity using your own name and an email
 ```bash
 git config --local user.name "Your Name"
 git config --local user.email "YOUR_ID+YOUR_USERNAME@users.noreply.github.com"
-git var GIT_AUTHOR_IDENT 
-
+git var GIT_AUTHOR_IDENT
+```
+Copy your exact noreply address from GitHub Settings → Emails; do not use another member’s address. The initial history used a machine‑local email that GitHub could not associate with an account. New commits use a linked identity; earlier commits have not been rewritten. Contributor graphs may take time to refresh after a push. EOF # <-- type this on a new line, then press Enter
